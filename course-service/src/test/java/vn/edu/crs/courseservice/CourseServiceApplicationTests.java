@@ -56,6 +56,6 @@ class CourseServiceApplicationTests {
 
         mockMvc.perform(get("/courses"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.content.length()").value(1));
     }
 }

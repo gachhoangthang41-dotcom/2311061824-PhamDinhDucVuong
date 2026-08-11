@@ -1,6 +1,8 @@
 package vn.edu.crs.courseservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.edu.crs.courseservice.dto.CourseDTO;
@@ -34,6 +36,15 @@ public class CourseService {
         Course course = findCourseById(id);
 
         return toDTO(course);
+    }
+
+    public Page<CourseDTO> search(String keyword, Pageable pageable) {
+        Page<Course> courses = keyword == null || keyword.isBlank()
+                ? courseRepository.findAll(pageable)
+                : courseRepository.findByTenMonHocContainingIgnoreCase(
+                        keyword.trim(), pageable);
+
+        return courses.map(this::toDTO);
     }
 
     /**
@@ -139,6 +150,30 @@ public class CourseService {
         Course course = findCourseById(id);
 
         courseRepository.delete(course);
+    }
+
+    @Transactional
+    public CourseDTO reserveSeat(Long courseId) {
+        Course course = findCourseById(courseId);
+
+        if (course.getSoChoConLai() <= 0) {
+            throw new IllegalStateException(
+                    "Môn học đã hết chỗ, không thể đăng ký");
+        }
+
+        course.setSoChoConLai(course.getSoChoConLai() - 1);
+        return toDTO(courseRepository.save(course));
+    }
+
+    @Transactional
+    public CourseDTO releaseSeat(Long courseId) {
+        Course course = findCourseById(courseId);
+
+        if (course.getSoChoConLai() < course.getSoChoToiDa()) {
+            course.setSoChoConLai(course.getSoChoConLai() + 1);
+        }
+
+        return toDTO(courseRepository.save(course));
     }
 
     /**

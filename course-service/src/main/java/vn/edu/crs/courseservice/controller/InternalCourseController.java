@@ -1,0 +1,42 @@
+package vn.edu.crs.courseservice.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import vn.edu.crs.courseservice.dto.CourseDTO;
+import vn.edu.crs.courseservice.service.CourseService;
+
+@RestController
+@RequestMapping("/internal/courses")
+@RequiredArgsConstructor
+public class InternalCourseController {
+
+    private final CourseService courseService;
+
+    /**
+     * Trừ 1 chỗ.
+     *
+     * PATCH
+     * /internal/courses/{id}/reserve-seat
+     */
+    @PatchMapping("/{id}/reserve-seat")
+    public CourseDTO reserveSeat(
+            @PathVariable Long id
+    ) {
+
+        return courseService.reserveSeat(id);
+    }
+
+    /**
+     * Hoàn lại 1 chỗ.
+     *
+     * PATCH
+     * /internal/courses/{id}/release-seat
+     */
+    @PatchMapping("/{id}/release-seat")
+    public CourseDTO releaseSeat(
+            @PathVariable Long id
+    ) {
+
+        return courseService.releaseSeat(id);
+    }
+}
