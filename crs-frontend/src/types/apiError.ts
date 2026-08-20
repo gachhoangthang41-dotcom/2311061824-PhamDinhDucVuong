@@ -1,4 +1,12 @@
+export interface FieldErrors {
+  [field: string]: string;
+}
+
 export interface ApiErrorResponse {
-  message?: string;
-  [field: string]: string | undefined;
+  timestamp?: string;
+  status?: number;
+  error?: string;
+  message: string;
+  path?: string;
+  errors?: FieldErrors;
 }
