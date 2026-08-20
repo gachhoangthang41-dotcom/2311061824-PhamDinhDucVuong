@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: course-service
+
+  datasource:
+    url: ${COURSE_DB_URL}
+    username: ${COURSE_DB_USERNAME}
+    password: ${COURSE_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: ${COURSE_SERVICE_PORT}
+
+jwt:
+  secret: ${JWT_SECRET}

@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: registration-service
+
+  datasource:
+    url: ${REGISTRATION_DB_URL}
+    username: ${REGISTRATION_DB_USERNAME}
+    password: ${REGISTRATION_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: ${REGISTRATION_SERVICE_PORT}
+
+course-service:
+  base-url: ${COURSE_SERVICE_URL}
+
+jwt:
+  secret: ${JWT_SECRET}
